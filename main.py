@@ -1,6 +1,10 @@
 import igraph as ig
 import random
 from user import User
+import os
+
+if os.path.exists("feed.txt"):
+    os.remove("feed.txt")
 
 
 def init_network(net_size=2_00, p=0.5, k_out=10) -> dict:
@@ -37,7 +41,7 @@ def init_network(net_size=2_00, p=0.5, k_out=10) -> dict:
         v["utype"] = "normal user"
         v["postperday"] = 0 if v["utype"] == "lurker" else random.uniform(0, 50)
         v["qualitydistr"] = "(0.5, 0.15, 0, 1)"
-
+        graph.write_gml("network.gml")
     users = {}
     for node in graph.vs:
         friends = graph.successors(node.index)
@@ -89,16 +93,15 @@ class DataManager:
 
     def send_recsys(self, user: User) -> tuple:
         # Implement the logic to send messages to RecSys
-        return None, None # Placeholder for messages
+        return X, Y # Placeholder for messages
 
 
 class RecSys:
     def __init__(self):
         self.feeds = {}
 
-    def build_feed(self, agent: User, X, Y) -> list: # Placeholder for messages
+    def build_feed(self, agent: User, X, Y): # Placeholder for messages
         # Build a newsfeed for the agent based on incoming and outgoing messages 
-        return []
 
 
 if __name__ == "__main__":
@@ -110,7 +113,11 @@ if __name__ == "__main__":
     for agent in dm.agents.values():
         print("Processing agent: ", agent)
         X, Y = dm.send_recsys(agent)
-        newsfeed = rs.build_feed(agent, X, Y)
-        for msg in newsfeed:
-            print(f"Agent {agent.uid} received message: {msg}")
-            
+        rs.build_feed(agent, X, Y)
+        with open(f"feed.txt", "a", encoding="utf-8") as f:
+            f.write(f"User Info:\n{agent}\n")
+            f.write("Detailed feed:\n")
+            for item in agent.newsfeed:
+                f.write(f"{item}\n")
+                f.write("\n")
+            f.write("---------------------------------------\n")

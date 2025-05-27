@@ -94,13 +94,12 @@ The following section will briefly describe the main classes and how they work.
     def build_feed(self, agent: User, X, Y) -> list: # Placeholder for messages
         # Build a newsfeed for the agent based on incoming and outgoing messages
         # agent.newsfeed = generated_feed
-        return [] # return the genereated_feed
   ```
 
 ## Objective
 The goal of the project is to implement a recommender system that can have, within each user's homepage a series of posts sorted according to a chosen logic (e.g. you can leverage topic vectors to recommend content that has similar topics to the user's interests, you can recommend posts from friends and non-proprotectionally, etc).
 You will have to work in the `main.py` class, without modifying the other classes, which you can still analyze to better understand how the code works.
-The output should be a file that contains, for each user, their feed after recommendation.
+The output should be a file that contains, for each user, their feed after recommendation, the execution result will be saved into a file so it is possible to check the newsfeeds.
 
 ## Usage
 1. Clone the repository:
